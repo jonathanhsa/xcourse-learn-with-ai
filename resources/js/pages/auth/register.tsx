@@ -38,13 +38,6 @@ export default function Register({ passwordRules }: Props) {
                 footer={footer}
             >
                 <form className="space-y-4" onSubmit={handleRegister}>
-                    <div className="animate-element animate-delay-300">
-                        <label className="text-sm font-medium text-muted-foreground">Name</label>
-                        <GlassInputWrapper>
-                            <input name="name" type="text" required placeholder="Enter your full name" className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none" />
-                        </GlassInputWrapper>
-                    </div>
-
                     <div className="animate-element animate-delay-400">
                         <label className="text-sm font-medium text-muted-foreground">Email Address</label>
                         <GlassInputWrapper>

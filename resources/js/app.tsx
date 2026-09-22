@@ -16,6 +16,7 @@ void createInertiaApp({
             case name === 'auth/login':
             case name === 'auth/register':
             case name === 'auth/forgot-password':
+            case name.startsWith('onboarding/'):
                 return null;
             case name.startsWith('auth/'):
                 return AuthLayout;
@@ -28,7 +29,7 @@ void createInertiaApp({
     strictMode: true,
     withApp(app) {
         return (
-            <TooltipProvider delayDuration={0}>
+            <TooltipProvider delay={0}>
                 {app}
                 <Toaster />
             </TooltipProvider>

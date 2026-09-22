@@ -88,7 +88,7 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
   );
 
   return (
-    <div className="h-[100dvh] flex flex-col md:flex-row font-geist w-[100dvw]">
+    <div className="h-[100dvh] flex flex-col md:flex-row w-[100dvw]">
       {/* Left column: sign-in form */}
       <section className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
