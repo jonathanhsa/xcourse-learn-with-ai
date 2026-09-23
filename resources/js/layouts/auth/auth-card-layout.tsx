@@ -9,6 +9,7 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { home } from '@/routes';
+import { usePageTransition } from '@/hooks/use-anime';
 
 export default function AuthCardLayout({
     children,
@@ -19,8 +20,14 @@ export default function AuthCardLayout({
     title?: string;
     description?: string;
 }>) {
+    const containerRef = usePageTransition<HTMLDivElement>(title, {
+        duration: 550,
+        yOffset: 20,
+    });
+
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+        <div ref={containerRef} className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10 will-change-[opacity,transform]">
+
             <div className="flex w-full max-w-md flex-col gap-6">
                 <Link
                     href={home()}

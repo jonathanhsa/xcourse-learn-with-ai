@@ -67,72 +67,54 @@
 }
 
 :root {
-    --background:
-        oklch(1 0 0);
-    --foreground:
-        oklch(0.2 0 0);
-    --card:
-        oklch(1 0 0);
-    --card-foreground:
-        oklch(0.2 0 0);
-    --popover:
-        oklch(1 0 0);
-    --popover-foreground:
-        oklch(0.2 0 0);
-    --primary:
-        oklch(0.55 0.15 250);
-    --primary-foreground:
-        oklch(1 0 0);
-    --secondary:
-        oklch(0.96 0 0);
-    --secondary-foreground:
-        oklch(0.2 0 0);
-    --muted:
-        oklch(0.96 0 0);
-    --muted-foreground:
-        oklch(0.5 0 0);
-    --accent:
-        oklch(0.96 0 0);
-    --accent-foreground:
-        oklch(0.2 0 0);
-    --destructive:
-        oklch(0.577 0.245 27.325);
-    --destructive-foreground: 
-        oklch(1 0 0);
-    --border:
-        oklch(0.9 0 0);
-    --input:
-        oklch(0.9 0 0);
-    --ring:
-        oklch(0.55 0.15 250);
-    --chart-1:
-        oklch(0.87 0 0);
-    --chart-2:
-        oklch(0.556 0 0);
-    --chart-3:
-        oklch(0.439 0 0);
-    --chart-4:
-        oklch(0.371 0 0);
-    --chart-5:
-        oklch(0.269 0 0);
-    --radius:
-        0.8rem;
-    --sidebar:
-        oklch(0.985 0 0);
-    --sidebar-foreground:
-        oklch(0.2 0 0);
-    --sidebar-primary:
-        oklch(0.55 0.15 250);
-    --sidebar-primary-foreground:
-        oklch(1 0 0);
-    --sidebar-accent:
-        oklch(0.96 0 0);
-    --sidebar-accent-foreground:
-        oklch(0.2 0 0);
-    --sidebar-border:
-        oklch(0.9 0 0);
-    --sidebar-ring:
-        oklch(0.55 0.15 250);
+    /* Base Colors */
+    --background: #F4EFE6;
+    --foreground: #36322E; /* Warm dark grey instead of harsh black */
+
+    /* Cards & Popovers */
+    --card: #FFFFFF; /* Pure white creates a beautiful contrast floating over cream */
+    --card-foreground: #36322E;
+    --popover: #FFFFFF;
+    --popover-foreground: #36322E;
+
+    /* Primary (Brand Color) */
+    --primary: #5C4033; /* Rich Espresso Brown to match the cream */
+    --primary-foreground: #FFFFFF;
+
+    /* Secondary & Muted (Hover states, backgrounds for secondary elements) */
+    --secondary: #E9E3D6; /* Slightly darker cream for soft contrast */
+    --secondary-foreground: #4A453F;
+    --muted: #E9E3D6;
+    --muted-foreground: #7C756B; /* Warm muted text */
+    
+    /* Accents */
+    --accent: #E9E3D6;
+    --accent-foreground: #36322E;
+
+    /* Borders & Inputs */
+    --border: #E0D6C8; /* Warm border color that blends naturally, replacing cool grey */
+    --input: #E0D6C8;
+    --ring: #5C4033; /* Matches primary */
+
+    /* Chart Colors */
+    --chart-1: #5C4033;
+    --chart-2: #8B5E3C;
+    --chart-3: #D97736;
+    --chart-4: #6E7D63;
+    --chart-5: #3B82F6;
+
+    /* Radii */
+    --radius: 0.8rem;
+
+    /* Sidebar (matches theme) */
+    --sidebar: #FAF7F2;
+    --sidebar-foreground: #36322E;
+    --sidebar-primary: #5C4033;
+    --sidebar-primary-foreground: #FFFFFF;
+    --sidebar-accent: #E9E3D6;
+    --sidebar-accent-foreground: #36322E;
+    --sidebar-border: #E0D6C8;
+    --sidebar-ring: #5C4033;
 }
 
 @layer utilities {
@@ -272,3 +254,13 @@
   }
 }
 
+
+/* Fix Chrome autofill background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px var(--card) inset !important;
+    -webkit-text-fill-color: var(--foreground) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}

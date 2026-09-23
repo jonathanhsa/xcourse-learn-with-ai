@@ -21,7 +21,20 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(\Laravel\Fortify\Contracts\LogoutResponse::class, function () {
+            return new class implements \Laravel\Fortify\Contracts\LogoutResponse {
+                public function toResponse($request)
+                {
+                    if ($redirect = $request->input('redirect_to')) {
+                        return redirect($redirect);
+                    }
+
+                    return $request->wantsJson()
+                        ? new \Illuminate\Http\JsonResponse('', 204)
+                        : redirect(\Laravel\Fortify\Fortify::redirects('logout', '/'));
+                }
+            };
+        });
     }
 
     /**

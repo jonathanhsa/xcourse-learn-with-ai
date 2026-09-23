@@ -5,6 +5,8 @@ import type { Appearance } from '@/hooks/use-appearance';
 import { useAppearance } from '@/hooks/use-appearance';
 import { cn } from '@/lib/utils';
 
+import { animateClickPop } from '@/lib/anime';
+
 export default function AppearanceToggleTab({
     className = '',
     ...props
@@ -28,7 +30,10 @@ export default function AppearanceToggleTab({
             {tabs.map(({ value, icon: Icon, label }) => (
                 <button
                     key={value}
-                    onClick={() => updateAppearance(value)}
+                    onClick={(e) => {
+                        animateClickPop(e.currentTarget);
+                        updateAppearance(value);
+                    }}
                     className={cn(
                         'flex items-center rounded-md px-3.5 py-1.5 transition-colors',
                         appearance === value

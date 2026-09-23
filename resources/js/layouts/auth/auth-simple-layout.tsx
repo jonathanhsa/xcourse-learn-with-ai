@@ -1,7 +1,10 @@
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, router } from '@inertiajs/react';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { home } from '@/routes';
 import type { AuthLayoutProps } from '@/types';
+import { usePageTransition } from '@/hooks/use-anime';
+import { OriginButton } from '@/components/ui/origin-button';
+import { ChevronLeft } from 'lucide-react';
 
 export default function AuthSimpleLayout({
     children,
@@ -9,8 +12,33 @@ export default function AuthSimpleLayout({
     description,
 }: AuthLayoutProps) {
     const { url } = usePage();
+    const containerRef = usePageTransition<HTMLDivElement>(url, {
+        duration: 550,
+        yOffset: 20,
+    });
+
+    const handleBack = () => {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            router.visit(home());
+        }
+    };
+
     return (
-        <div key={url} className="page-transition-enter flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
+        <div ref={containerRef} key={url} className="relative flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10 will-change-[opacity,transform]">
+
+            {/* Back Button */}
+            <div className="absolute left-6 top-6 md:left-10 md:top-10">
+                <OriginButton 
+                    onClick={handleBack} 
+                    className="!h-12 !w-12 !rounded-full !px-0"
+                    aria-label="Go back"
+                >
+                    <ChevronLeft className="size-5" />
+                </OriginButton>
+            </div>
+
             <div className="w-full max-w-sm">
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col items-center gap-4">
@@ -37,3 +65,4 @@ export default function AuthSimpleLayout({
         </div>
     );
 }
+

@@ -38,14 +38,14 @@ export default function Register({ passwordRules }: Props) {
                 footer={footer}
             >
                 <form className="space-y-4" onSubmit={handleRegister}>
-                    <div className="animate-element animate-delay-400">
+                    <div className="auth-anime-item">
                         <label className="text-sm font-medium text-muted-foreground">Email Address</label>
                         <GlassInputWrapper>
                             <input name="email" type="email" required placeholder="Enter your email address" className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none" />
                         </GlassInputWrapper>
                     </div>
 
-                    <div className="animate-element animate-delay-500">
+                    <div className="auth-anime-item">
                         <label className="text-sm font-medium text-muted-foreground">Password</label>
                         <GlassInputWrapper>
                             <div className="relative">
@@ -57,7 +57,7 @@ export default function Register({ passwordRules }: Props) {
                         </GlassInputWrapper>
                     </div>
 
-                    <div className="animate-element animate-delay-600">
+                    <div className="auth-anime-item">
                         <label className="text-sm font-medium text-muted-foreground">Confirm Password</label>
                         <GlassInputWrapper>
                             <div className="relative">
@@ -69,7 +69,10 @@ export default function Register({ passwordRules }: Props) {
                         </GlassInputWrapper>
                     </div>
 
-                    <button type="submit" className="animate-element animate-delay-700 w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 mt-2">
+                    <button 
+                        type="submit" 
+                        className="auth-anime-item w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 mt-2"
+                    >
                         Create Account
                     </button>
                 </form>

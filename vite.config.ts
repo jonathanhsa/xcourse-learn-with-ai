@@ -6,6 +6,16 @@ import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import { defineConfig, lazyPlugins } from 'vite-plus';
+import { execSync } from 'node:child_process';
+
+const hasPhp = (() => {
+    try {
+        execSync('php -v', { stdio: 'ignore' });
+        return true;
+    } catch {
+        return false;
+    }
+})();
 
 export default defineConfig({
     plugins: lazyPlugins(() => [
@@ -24,9 +34,13 @@ export default defineConfig({
             presets: [reactCompilerPreset()],
         }),
         tailwindcss(),
-        wayfinder({
-            formVariants: true,
-        }),
+        ...(hasPhp
+            ? [
+                  wayfinder({
+                      formVariants: true,
+                  }),
+              ]
+            : []),
     ]),
     server: {
         watch: {

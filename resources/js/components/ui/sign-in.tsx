@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Eye, EyeOff, ChevronLeft } from 'lucide-react';
+import { animateStagger, animateFloat, animatePageEntrance, animateClickPop } from '@/lib/anime';
+import { router } from '@inertiajs/react';
+import { home } from '@/routes';
+import { OriginButton } from '@/components/ui/origin-button';
 
 // --- HELPER COMPONENTS (ICONS) ---
 
@@ -37,13 +41,13 @@ export interface SignInPageProps {
 // --- SUB-COMPONENTS ---
 
 export const GlassInputWrapper = ({ children }: { children: React.ReactNode }) => (
-  <div className="rounded-2xl border border-border bg-foreground/5 backdrop-blur-sm transition-colors focus-within:border-violet-400/70 focus-within:bg-violet-500/10">
+  <div className="rounded-2xl border border-border bg-card transition-colors focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20 shadow-sm">
     {children}
   </div>
 );
 
 const TestimonialCard = ({ testimonial, delay }: { testimonial: Testimonial, delay: string }) => (
-  <div className={`animate-testimonial ${delay} flex items-start gap-3 rounded-3xl bg-card/40 dark:bg-zinc-800/40 backdrop-blur-xl border border-white/10 p-5 w-64`}>
+  <div className={`flex items-start gap-3 rounded-3xl bg-card/60 dark:bg-zinc-800/60 backdrop-blur-xl border border-white/20 p-5 w-64 shadow-xl`}>
     <img src={testimonial.avatarSrc} className="h-10 w-10 object-cover rounded-2xl" alt="avatar" />
     <div className="text-sm leading-snug">
       <p className="flex items-center gap-1 font-medium">{testimonial.name}</p>
@@ -68,46 +72,115 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
   footer
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const formSectionRef = useRef<HTMLDivElement>(null);
+  const heroImageRef = useRef<HTMLDivElement>(null);
+  const testimonialContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Stagger entrance on form elements
+    if (formSectionRef.current) {
+      const items = formSectionRef.current.querySelectorAll('.auth-anime-item');
+      if (items.length > 0) {
+        animateStagger(items, {
+          duration: 650,
+          staggerMs: 70,
+          yOffset: 20,
+          delay: 50,
+        });
+      }
+    }
+
+    // Hero image reveal
+    if (heroImageRef.current) {
+      animatePageEntrance(heroImageRef.current, {
+        duration: 800,
+        yOffset: 0,
+        scale: 0.96,
+        delay: 200,
+      });
+    }
+
+    // Float testimonial card if present
+    let anim: any;
+    if (testimonialContainerRef.current) {
+      anim = animateFloat(testimonialContainerRef.current, {
+        yDistance: 8,
+        rotate: 1,
+        duration: 3600,
+        delay: 500,
+      });
+    }
+
+    return () => {
+      if (anim && typeof anim.revert === 'function') anim.revert();
+    };
+  }, []);
 
   const defaultFooter = (
     <>
-      <div className="animate-element animate-delay-700 relative flex items-center justify-center mt-2">
+      <div className="auth-anime-item relative flex items-center justify-center mt-2">
         <span className="w-full border-t border-border"></span>
         <span className="px-4 text-sm text-muted-foreground bg-background absolute">Or continue with</span>
       </div>
 
-      <button onClick={onGoogleSignIn} type="button" className="animate-element animate-delay-800 w-full flex items-center justify-center gap-3 border border-border rounded-2xl py-4 hover:bg-secondary hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 mt-2">
+      <button 
+        onClick={(e) => {
+          animateClickPop(e.currentTarget);
+          onGoogleSignIn?.();
+        }} 
+        type="button" 
+        className="auth-anime-item w-full flex items-center justify-center gap-3 border border-border rounded-2xl py-4 hover:bg-secondary hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 mt-2"
+      >
           <GoogleIcon />
           Continue with Google
       </button>
 
-      <p className="animate-element animate-delay-900 text-center text-sm text-muted-foreground mt-4">
-        New to our platform? <a href="#" onClick={(e) => { e.preventDefault(); onCreateAccount?.(); }} className="text-violet-400 hover:underline transition-colors">Create Account</a>
+      <p className="auth-anime-item text-center text-sm text-muted-foreground mt-4">
+        New to our platform? <a href="#" onClick={(e) => { e.preventDefault(); onCreateAccount?.(); }} className="text-primary hover:underline hover:text-primary/80 transition-colors font-medium">Create Account</a>
       </p>
     </>
   );
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        router.visit(home());
+    }
+  };
+
   return (
-    <div className="h-[100dvh] flex flex-col md:flex-row w-[100dvw]">
+    <div className="relative h-[100dvh] flex flex-col md:flex-row w-[100dvw] overflow-hidden">
+      {/* Back Button */}
+      <div className="absolute left-6 top-6 md:left-10 md:top-10 z-50">
+          <OriginButton 
+              onClick={handleBack} 
+              className="!h-12 !w-12 !rounded-full !px-0 shadow-sm"
+              aria-label="Go back"
+          >
+              <ChevronLeft className="size-5" />
+          </OriginButton>
+      </div>
+
       {/* Left column: sign-in form */}
-      <section className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full max-w-md">
+      <section className="flex-1 flex items-center justify-center p-8 overflow-y-auto">
+        <div ref={formSectionRef} className="w-full max-w-md">
           <div className="flex flex-col gap-6">
-            <h1 className="animate-element animate-delay-100 text-4xl md:text-5xl font-semibold leading-tight">{title}</h1>
-            <p className="animate-element animate-delay-200 text-muted-foreground">{description}</p>
+            <h1 className="auth-anime-item text-4xl md:text-5xl font-semibold leading-tight">{title}</h1>
+            <p className="auth-anime-item text-muted-foreground">{description}</p>
 
             {children ? (
                children
             ) : (
                 <form className="space-y-5" onSubmit={onSignIn}>
-                  <div className="animate-element animate-delay-300">
+                  <div className="auth-anime-item">
                     <label className="text-sm font-medium text-muted-foreground">Email Address</label>
                     <GlassInputWrapper>
                       <input name="email" type="email" placeholder="Enter your email address" className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none" />
                     </GlassInputWrapper>
                   </div>
 
-                  <div className="animate-element animate-delay-400">
+                  <div className="auth-anime-item">
                     <label className="text-sm font-medium text-muted-foreground">Password</label>
                     <GlassInputWrapper>
                       <div className="relative">
@@ -119,15 +192,19 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
                     </GlassInputWrapper>
                   </div>
 
-                  <div className="animate-element animate-delay-500 flex items-center justify-between text-sm">
+                  <div className="auth-anime-item flex items-center justify-between text-sm">
                     <label className="flex items-center gap-3 cursor-pointer">
                       <input type="checkbox" name="rememberMe" className="custom-checkbox" />
                       <span className="text-foreground/90">Keep me signed in</span>
                     </label>
-                    <a href="#" onClick={(e) => { e.preventDefault(); onResetPassword?.(); }} className="hover:underline text-violet-400 transition-colors">Reset password</a>
+                    <a href="#" onClick={(e) => { e.preventDefault(); onResetPassword?.(); }} className="hover:underline text-primary hover:text-primary/80 transition-colors">Reset password</a>
                   </div>
 
-                  <button type="submit" className="animate-element animate-delay-600 w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300">
+                  <button 
+                    onClick={(e) => animateClickPop(e.currentTarget)}
+                    type="submit" 
+                    className="auth-anime-item w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
+                  >
                     Sign In
                   </button>
                 </form>
@@ -141,9 +218,16 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
       {/* Right column: hero image + testimonials */}
       {heroImageSrc && (
         <section className="hidden md:block flex-1 relative p-4">
-          <div className="animate-slide-right animate-delay-300 absolute inset-4 rounded-3xl bg-cover bg-center" style={{ backgroundImage: `url(${heroImageSrc})` }}></div>
+          <div 
+            ref={heroImageRef}
+            className="absolute inset-4 rounded-3xl bg-cover bg-center shadow-2xl" 
+            style={{ backgroundImage: `url(${heroImageSrc})` }}
+          ></div>
           {testimonials.length > 0 && (
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4 px-8 w-full justify-center">
+            <div 
+              ref={testimonialContainerRef}
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4 px-8 w-full justify-center z-20"
+            >
               <TestimonialCard testimonial={testimonials[0]} delay="animate-delay-1000" />
               {testimonials[1] && <div className="hidden xl:flex"><TestimonialCard testimonial={testimonials[1]} delay="animate-delay-1200" /></div>}
               {testimonials[2] && <div className="hidden 2xl:flex"><TestimonialCard testimonial={testimonials[2]} delay="animate-delay-1400" /></div>}
@@ -154,3 +238,5 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
     </div>
   );
 };
+
+

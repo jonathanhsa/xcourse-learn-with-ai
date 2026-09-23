@@ -1,5 +1,9 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import { 
+    BookOpen, FolderGit2, LayoutGrid, 
+    Sparkles, Calendar, TrendingUp, Library, 
+    Brain, Settings, Layers 
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -19,20 +23,45 @@ import type { NavItem } from '@/types';
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: typeof dashboard === 'function' ? (dashboard as any).url?.() || dashboard() : '/dashboard',
         icon: LayoutGrid,
+    },
+    {
+        title: 'AI Agents',
+        href: '/ai-agents',
+        icon: Sparkles,
+    },
+    {
+        title: 'Study Calendar',
+        href: '#calendar',
+        icon: Calendar,
+    },
+    {
+        title: 'Track Record',
+        href: '#analytics',
+        icon: TrendingUp,
+    },
+    {
+        title: 'Material Repository',
+        href: '#repository',
+        icon: Library,
+    },
+    {
+        title: 'Quizzes & Flashcards',
+        href: '#practice',
+        icon: Brain,
+    },
+    {
+        title: 'Focus Sessions',
+        href: '#focus',
+        icon: Layers,
     },
 ];
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
-    },
-    {
         title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
+        href: 'https://laravel.com/docs',
         icon: BookOpen,
     },
 ];
@@ -43,10 +72,11 @@ export function AppSidebar() {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
-                                <AppLogo />
-                            </Link>
+                        <SidebarMenuButton 
+                            size="lg" 
+                            render={<Link href={typeof dashboard === 'function' ? (dashboard as any).url?.() || dashboard() : '/dashboard'} prefetch />}
+                        >
+                            <AppLogo />
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>

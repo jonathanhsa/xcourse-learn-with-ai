@@ -9,6 +9,8 @@ import { edit as editAppearance } from '@/routes/appearance';
 import { edit } from '@/routes/profile';
 import { edit as editSecurity } from '@/routes/security';
 import type { NavItem } from '@/types';
+import { usePageTransition, useStagger } from '@/hooks/use-anime';
+import { usePage } from '@inertiajs/react';
 
 const sidebarNavItems: NavItem[] = [
     {
@@ -30,6 +32,18 @@ const sidebarNavItems: NavItem[] = [
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
     const { isCurrentOrParentUrl } = useCurrentUrl();
+    const { url } = usePage();
+
+    const navRef = useStagger<HTMLElement>('a, button', [], {
+        staggerMs: 50,
+        yOffset: 8,
+        duration: 400,
+    });
+
+    const contentRef = usePageTransition<HTMLDivElement>(url, {
+        duration: 450,
+        yOffset: 12,
+    });
 
     return (
         <div className="px-4 py-6">
@@ -41,9 +55,11 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
             <div className="flex flex-col lg:flex-row lg:space-x-12">
                 <aside className="w-full max-w-xl lg:w-48">
                     <nav
+                        ref={navRef}
                         className="flex flex-col space-y-1 space-x-0"
                         aria-label="Settings"
                     >
+
                         {sidebarNavItems.map((item, index) => (
                             <Button
                                 key={`${toUrl(item.href)}-${index}`}
@@ -68,7 +84,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                 <Separator className="my-6 lg:hidden" />
 
                 <div className="flex-1 md:max-w-2xl">
-                    <section className="max-w-xl space-y-12">
+                    <section ref={contentRef} className="max-w-xl space-y-12 will-change-[opacity,transform]">
                         {children}
                     </section>
                 </div>

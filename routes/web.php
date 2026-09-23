@@ -11,6 +11,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::inertia('ai-agents', 'ai-agents')->name('ai-agents');
 });
 
 require __DIR__.'/settings.php';
