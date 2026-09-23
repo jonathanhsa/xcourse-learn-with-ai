@@ -26,12 +26,15 @@ export default function AuthSimpleLayout({
     };
 
     return (
-        <div ref={containerRef} key={url} className="relative flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10 will-change-[opacity,transform]">
-
+        <div
+            ref={containerRef}
+            key={url}
+            className="relative flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 will-change-[opacity,transform] md:p-10"
+        >
             {/* Back Button */}
-            <div className="absolute left-6 top-6 md:left-10 md:top-10">
-                <OriginButton 
-                    onClick={handleBack} 
+            <div className="absolute top-6 left-6 md:top-10 md:left-10">
+                <OriginButton
+                    onClick={handleBack}
                     className="!h-12 !w-12 !rounded-full !px-0"
                     aria-label="Go back"
                 >
@@ -65,4 +68,3 @@ export default function AuthSimpleLayout({
         </div>
     );
 }
-

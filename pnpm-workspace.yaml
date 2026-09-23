@@ -1,5 +1,14 @@
 packages:
     - '.'
 
+allowBuilds:
+  '@google/genai': set this to true or false
+  protobufjs: set this to true or false
+
+minimumReleaseAgeExclude:
+  - framer-motion@13.4.1
+  - motion-dom@13.4.1
+  - motion@13.4.1
+
 publicHoistPattern:
     - '@inertiajs/core'

@@ -125,11 +125,10 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
 
       <button 
         onClick={(e) => {
-          animateClickPop(e.currentTarget);
           onGoogleSignIn?.();
         }} 
         type="button" 
-        className="auth-anime-item w-full flex items-center justify-center gap-3 border border-border rounded-2xl py-4 hover:bg-secondary hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 mt-2"
+        className="auth-anime-item w-full flex items-center justify-center gap-3 border border-border rounded-2xl py-4 hover:bg-secondary hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 hover:shadow-md transition-all duration-200 mt-2"
       >
           <GoogleIcon />
           Continue with Google
@@ -201,9 +200,8 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
                   </div>
 
                   <button 
-                    onClick={(e) => animateClickPop(e.currentTarget)}
                     type="submit" 
-                    className="auth-anime-item w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
+                    className="auth-anime-item w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 hover:shadow-md transition-all duration-200"
                   >
                     Sign In
                   </button>

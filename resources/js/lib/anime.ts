@@ -14,7 +14,7 @@ export function animatePageEntrance(
         scale?: number;
         delay?: number;
         onComplete?: () => void;
-    } = {}
+    } = {},
 ) {
     const {
         duration = 650,
@@ -47,7 +47,7 @@ export function animateStagger(
         scale?: number;
         delay?: number;
         ease?: string;
-    } = {}
+    } = {},
 ) {
     const {
         duration = 600,
@@ -78,14 +78,9 @@ export function animateFloat(
         rotate?: number;
         duration?: number;
         delay?: number;
-    } = {}
+    } = {},
 ) {
-    const {
-        yDistance = 8,
-        rotate = 1.5,
-        duration = 3200,
-        delay = 0,
-    } = options;
+    const { yDistance = 8, rotate = 1.5, duration = 3200, delay = 0 } = options;
 
     return animate(target, {
         translateY: [-yDistance, yDistance],
@@ -114,7 +109,11 @@ export function animateClickPop(target: HTMLElement) {
 /**
  * Springy hover elevation
  */
-export function animateHoverEnter(target: HTMLElement, y: number = -4, scale: number = 1.02) {
+export function animateHoverEnter(
+    target: HTMLElement,
+    y: number = -4,
+    scale: number = 1.02,
+) {
     return animate(target, {
         translateY: y,
         scale,
@@ -139,7 +138,7 @@ export function animateStepTransition(
     outgoingEl: HTMLElement | null,
     incomingEl: HTMLElement | null,
     direction: 'forward' | 'backward' = 'forward',
-    onComplete?: () => void
+    onComplete?: () => void,
 ) {
     const xDistance = direction === 'forward' ? 40 : -40;
 
@@ -167,7 +166,7 @@ export function animateStepTransition(
                 duration: 400,
                 ease: 'outCubic',
             },
-            outgoingEl ? '-=100' : 0
+            outgoingEl ? '-=100' : 0,
         );
     }
 
@@ -186,7 +185,7 @@ export function animateCounter(
         prefix?: string;
         suffix?: string;
         round?: boolean;
-    } = {}
+    } = {},
 ) {
     const { duration = 1200, prefix = '', suffix = '', round = true } = options;
     const obj = { value: start };

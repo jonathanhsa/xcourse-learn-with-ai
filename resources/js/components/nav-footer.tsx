@@ -28,7 +28,11 @@ export function NavFooter({
                             <SidebarMenuButton
                                 render={
                                     toUrl(item.href).startsWith('http') ? (
-                                        <a href={toUrl(item.href)} target="_blank" rel="noopener noreferrer" />
+                                        <a
+                                            href={toUrl(item.href)}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        />
                                     ) : (
                                         <a href={toUrl(item.href)} />
                                     )

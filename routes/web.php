@@ -12,6 +12,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
     Route::inertia('ai-agents', 'ai-agents')->name('ai-agents');
+    Route::inertia('material-repository', 'material-repository')->name('material-repository');
+    Route::post('ai-agents/chat', [\App\Http\Controllers\AiAgentController::class, 'chat'])->name('ai-agents.chat');
 });
 
 require __DIR__.'/settings.php';

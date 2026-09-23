@@ -20,6 +20,7 @@
 **xcourse** is a modern, high-performance web platform designed to personalize and elevate the learning experience. Built with Laravel 12, Inertia.js, React 19, and Tailwind CSS v4, xcourse combines powerful backend capabilities with an ultra-responsive, minimalist aesthetic.
 
 ### Key Highlights
+
 - 🧠 **Adaptive Learning Engine**: Transforms static course syllabi and lecture slides into engaging, interactive modules.
 - 🎨 **Apple-Inspired Design**: Fluid glassmorphism navigation, refined typography, and smooth micro-interactions.
 - ⚡ **Full-Stack Type Safety**: Seamless route generation and prop validation powered by Laravel Wayfinder and TypeScript.
@@ -40,6 +41,7 @@
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - PHP 8.3 or higher
 - Composer
 - Node.js 20+ and npm / pnpm
@@ -48,44 +50,52 @@
 ### Installation
 
 1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/jonathanhsa/xcourse-learn-with-ai.git
-   cd xcourse-learn-with-ai
-   ```
+
+    ```bash
+    git clone https://github.com/jonathanhsa/xcourse-learn-with-ai.git
+    cd xcourse-learn-with-ai
+    ```
 
 2. **Install backend dependencies**:
-   ```bash
-   composer install
-   ```
+
+    ```bash
+    composer install
+    ```
 
 3. **Install frontend dependencies**:
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 4. **Environment Setup**:
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
+
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
 
 5. **Run Migrations**:
-   ```bash
-   php artisan migrate
-   ```
+
+    ```bash
+    php artisan migrate
+    ```
 
 6. **Start Development Servers**:
-   ```bash
-   # Run Vite and Laravel concurrently
-   composer run dev
-   ```
-   Or run them in separate terminals:
-   ```bash
-   php artisan serve
-   npm run dev
-   ```
 
-   Open [http://localhost:8000](http://localhost:8000) in your browser.
+    ```bash
+    # Run Vite and Laravel concurrently
+    composer run dev
+    ```
+
+    Or run them in separate terminals:
+
+    ```bash
+    php artisan serve
+    npm run dev
+    ```
+
+    Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ---
 
@@ -110,4 +120,3 @@ npm run check
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
-

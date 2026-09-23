@@ -1,7 +1,13 @@
 import React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { ArrowUp, Paperclip, Square, X, StopCircle, Mic, Globe, BrainCog, FolderCode } from "lucide-react";
+import { ArrowUp, Paperclip, Square, X, StopCircle, Mic, Globe, BrainCog, FolderCode, ImageIcon, FileText } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Utility function for className merging
@@ -467,11 +473,11 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
 
   const handleCanvasToggle = () => setShowCanvas((prev) => !prev);
 
-  const isImageFile = (file: File) => file.type.startsWith("image/");
+  const isAllowedFile = (file: File) => file.type.startsWith("image/") || file.type === "application/pdf";
 
   const processFile = (file: File) => {
-    if (!isImageFile(file)) {
-      console.log("Only image files are allowed");
+    if (!isAllowedFile(file)) {
+      console.log("Only image and PDF files are allowed");
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
@@ -479,9 +485,11 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
       return;
     }
     setFiles([file]);
-    const reader = new FileReader();
-    reader.onload = (e) => setFilePreviews({ [file.name]: e.target?.result as string });
-    reader.readAsDataURL(file);
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = (e) => setFilePreviews({ [file.name]: e.target?.result as string });
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleDragOver = React.useCallback((e: React.DragEvent) => {
@@ -498,8 +506,8 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
     e.preventDefault();
     e.stopPropagation();
     const files = Array.from(e.dataTransfer.files);
-    const imageFiles = files.filter((file) => isImageFile(file));
-    if (imageFiles.length > 0) processFile(imageFiles[0]);
+    const allowedFiles = files.filter((file) => isAllowedFile(file));
+    if (allowedFiles.length > 0) processFile(allowedFiles[0]);
   }, []);
 
   const handleRemoveFile = (index: number) => {
@@ -576,9 +584,9 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
           <div className="flex flex-wrap gap-2 p-0 pb-1 transition-all duration-300">
             {files.map((file, index) => (
               <div key={index} className="relative group">
-                {file.type.startsWith("image/") && filePreviews[file.name] && (
+                {file.type.startsWith("image/") && filePreviews[file.name] ? (
                   <div
-                    className="w-16 h-16 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 border border-border shadow-sm"
+                    className="w-16 h-16 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 border border-border shadow-sm relative group"
                     onClick={() => openImageModal(filePreviews[file.name])}
                   >
                     <img
@@ -596,7 +604,23 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
                       <X className="h-3 w-3 text-white" />
                     </button>
                   </div>
-                )}
+                ) : file.type === "application/pdf" ? (
+                  <div
+                    className="w-16 h-16 bg-muted/50 rounded-xl overflow-hidden transition-all duration-300 border border-border shadow-sm relative flex flex-col items-center justify-center p-2"
+                  >
+                    <FileText className="h-6 w-6 text-primary mb-1" />
+                    <span className="text-[9px] text-muted-foreground w-full text-center truncate">{file.name}</span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveFile(index);
+                      }}
+                      className="absolute top-1 right-1 rounded-full bg-black/50 p-0.5 opacity-100 transition-opacity hover:bg-black/70"
+                    >
+                      <X className="h-3 w-3 text-white" />
+                    </button>
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>
@@ -637,25 +661,51 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
               isRecording ? "opacity-0 invisible h-0" : "opacity-100 visible"
             )}
           >
-            <PromptInputAction tooltip="Upload image">
-              <button
-                onClick={() => uploadInputRef.current?.click()}
-                className="flex h-8 w-8 text-muted-foreground cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-muted hover:text-foreground"
-                disabled={isRecording}
-              >
-                <Paperclip className="h-5 w-5 transition-colors" />
-                <input
-                  ref={uploadInputRef}
-                  type="file"
-                  className="hidden"
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files.length > 0) processFile(e.target.files[0]);
-                    if (e.target) e.target.value = "";
-                  }}
-                  accept="image/*"
-                />
-              </button>
-            </PromptInputAction>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild disabled={isRecording}>
+                <button
+                  className="flex h-8 w-8 text-muted-foreground cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="flex h-full w-full items-center justify-center">
+                        <Paperclip className="h-5 w-5 transition-colors" />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent side="top">Upload file</TooltipContent>
+                  </Tooltip>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" sideOffset={12} className="w-40 rounded-xl">
+                <DropdownMenuItem onClick={() => {
+                  if (uploadInputRef.current) {
+                    uploadInputRef.current.accept = "image/*";
+                    uploadInputRef.current.click();
+                  }
+                }} className="cursor-pointer rounded-lg">
+                  <ImageIcon className="mr-2 h-4 w-4 text-primary" />
+                  <span>Image</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                  if (uploadInputRef.current) {
+                    uploadInputRef.current.accept = "application/pdf";
+                    uploadInputRef.current.click();
+                  }
+                }} className="cursor-pointer rounded-lg">
+                  <FileText className="mr-2 h-4 w-4 text-primary" />
+                  <span>PDF Document</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <input
+              ref={uploadInputRef}
+              type="file"
+              className="hidden"
+              onChange={(e) => {
+                if (e.target.files && e.target.files.length > 0) processFile(e.target.files[0]);
+                if (e.target) e.target.value = "";
+              }}
+            />
 
             <div className="flex items-center">
               <button

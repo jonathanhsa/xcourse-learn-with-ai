@@ -59,7 +59,6 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                         className="flex flex-col space-y-1 space-x-0"
                         aria-label="Settings"
                     >
-
                         {sidebarNavItems.map((item, index) => (
                             <Button
                                 key={`${toUrl(item.href)}-${index}`}
@@ -84,7 +83,10 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                 <Separator className="my-6 lg:hidden" />
 
                 <div className="flex-1 md:max-w-2xl">
-                    <section ref={contentRef} className="max-w-xl space-y-12 will-change-[opacity,transform]">
+                    <section
+                        ref={contentRef}
+                        className="max-w-xl space-y-12 will-change-[opacity,transform]"
+                    >
                         {children}
                     </section>
                 </div>

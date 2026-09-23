@@ -1,8 +1,15 @@
 import { Link } from '@inertiajs/react';
-import { 
-    BookOpen, FolderGit2, LayoutGrid, 
-    Sparkles, Calendar, TrendingUp, Library, 
-    Brain, Settings, Layers 
+import {
+    BookOpen,
+    FolderGit2,
+    LayoutGrid,
+    Sparkles,
+    Calendar,
+    TrendingUp,
+    Library,
+    Brain,
+    Settings,
+    Layers,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -23,7 +30,10 @@ import type { NavItem } from '@/types';
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: typeof dashboard === 'function' ? (dashboard as any).url?.() || dashboard() : '/dashboard',
+        href:
+            typeof dashboard === 'function'
+                ? (dashboard as any).url?.() || dashboard()
+                : '/dashboard',
         icon: LayoutGrid,
     },
     {
@@ -43,7 +53,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Material Repository',
-        href: '#repository',
+        href: '/material-repository',
         icon: Library,
     },
     {
@@ -72,9 +82,19 @@ export function AppSidebar() {
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton 
-                            size="lg" 
-                            render={<Link href={typeof dashboard === 'function' ? (dashboard as any).url?.() || dashboard() : '/dashboard'} prefetch />}
+                        <SidebarMenuButton
+                            size="lg"
+                            render={
+                                <Link
+                                    href={
+                                        typeof dashboard === 'function'
+                                            ? (dashboard as any).url?.() ||
+                                              dashboard()
+                                            : '/dashboard'
+                                    }
+                                    prefetch
+                                />
+                            }
                         >
                             <AppLogo />
                         </SidebarMenuButton>

@@ -14,7 +14,7 @@ export default function Login({ status, canResetPassword }: Props) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const data = Object.fromEntries(formData.entries());
-        
+
         // Map rememberMe to remember for Laravel
         const payload = {
             email: data.email,
@@ -28,29 +28,31 @@ export default function Login({ status, canResetPassword }: Props) {
     const handleGoogleSignIn = () => {
         window.location.href = '/auth/google'; // Adjust if there's a specific route
     };
-    
+
     const handleResetPassword = () => {
         router.visit(request());
-    }
+    };
 
     const handleCreateAccount = () => {
         router.visit(register());
-    }
+    };
 
     return (
-        <div className="bg-background text-foreground min-h-screen page-transition-enter">
+        <div className="page-transition-enter min-h-screen bg-background text-foreground">
             <Head title="Welcome back" />
-            
+
             <SignInPage
                 heroImageSrc="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
                 onSignIn={handleSignIn}
                 onGoogleSignIn={handleGoogleSignIn}
-                onResetPassword={canResetPassword ? handleResetPassword : undefined}
+                onResetPassword={
+                    canResetPassword ? handleResetPassword : undefined
+                }
                 onCreateAccount={handleCreateAccount}
             />
 
             {status && (
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 mb-4 text-center text-sm font-medium text-green-600 bg-green-50 p-2 rounded shadow">
+                <div className="absolute top-4 left-1/2 mb-4 -translate-x-1/2 rounded bg-green-50 p-2 text-center text-sm font-medium text-green-600 shadow">
                     {status}
                 </div>
             )}
@@ -61,4 +63,3 @@ export default function Login({ status, canResetPassword }: Props) {
 // Remove the explicit layout so the SignInPage can use the full viewport on its own
 // since it renders `h-[100dvh] w-[100dvw]` inside.
 Login.layout = (page: any) => page;
-

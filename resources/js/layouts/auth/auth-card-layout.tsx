@@ -26,8 +26,10 @@ export default function AuthCardLayout({
     });
 
     return (
-        <div ref={containerRef} className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10 will-change-[opacity,transform]">
-
+        <div
+            ref={containerRef}
+            className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 will-change-[opacity,transform] md:p-10"
+        >
             <div className="flex w-full max-w-md flex-col gap-6">
                 <Link
                     href={home()}

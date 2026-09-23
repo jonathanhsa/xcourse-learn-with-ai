@@ -18,10 +18,13 @@ export default function AppLayout({
 
     return (
         <AppLayoutTemplate breadcrumbs={breadcrumbs}>
-            <div ref={containerRef} key={url} className="h-full w-full will-change-[opacity,transform]">
+            <div
+                ref={containerRef}
+                key={url}
+                className="h-full w-full will-change-[opacity,transform]"
+            >
                 {children}
             </div>
         </AppLayoutTemplate>
     );
 }
-

@@ -1,6 +1,6 @@
-import EntriesController from './EntriesController'
+import EntriesController from './EntriesController';
 const Http = {
     EntriesController: Object.assign(EntriesController, EntriesController),
-}
+};
 
-export default Http
+export default Http;

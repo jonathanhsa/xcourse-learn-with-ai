@@ -11,7 +11,7 @@ import {
  */
 export function usePageTransition<T extends HTMLElement = HTMLDivElement>(
     key?: any,
-    options?: { duration?: number; yOffset?: number; delay?: number }
+    options?: { duration?: number; yOffset?: number; delay?: number },
 ) {
     const ref = useRef<T>(null);
 
@@ -34,7 +34,12 @@ export function usePageTransition<T extends HTMLElement = HTMLDivElement>(
 export function useStagger<T extends HTMLElement = HTMLDivElement>(
     selector: string = '[data-anime="item"]',
     deps: any[] = [],
-    options?: { duration?: number; staggerMs?: number; yOffset?: number; delay?: number }
+    options?: {
+        duration?: number;
+        staggerMs?: number;
+        yOffset?: number;
+        delay?: number;
+    },
 ) {
     const ref = useRef<T>(null);
 
@@ -52,9 +57,12 @@ export function useStagger<T extends HTMLElement = HTMLDivElement>(
 /**
  * Hook to apply subtle ambient floating animation to an element
  */
-export function useFloating<T extends HTMLElement = HTMLDivElement>(
-    options?: { yDistance?: number; rotate?: number; duration?: number; delay?: number }
-) {
+export function useFloating<T extends HTMLElement = HTMLDivElement>(options?: {
+    yDistance?: number;
+    rotate?: number;
+    duration?: number;
+    delay?: number;
+}) {
     const ref = useRef<T>(null);
 
     useEffect(() => {
@@ -76,7 +84,12 @@ export function useFloating<T extends HTMLElement = HTMLDivElement>(
 export function useCounter<T extends HTMLElement = HTMLSpanElement>(
     endValue: number,
     startValue: number = 0,
-    options?: { duration?: number; prefix?: string; suffix?: string; round?: boolean }
+    options?: {
+        duration?: number;
+        prefix?: string;
+        suffix?: string;
+        round?: boolean;
+    },
 ) {
     const ref = useRef<T>(null);
 

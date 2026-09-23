@@ -64,7 +64,7 @@ export function UserMenuContent({ user }: Props) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
                 onClick={handleLogout}
-                className="flex w-full cursor-pointer items-center text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950/40"
+                className="flex w-full cursor-pointer items-center text-red-600 focus:bg-red-50 focus:text-red-600 dark:focus:bg-red-950/40"
                 data-test="logout-button"
             >
                 <LogOut className="mr-2 h-4 w-4" />
