@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 // Utility function for className merging
 const cn = (...classes: (string | undefined | null | false)[]) => classes.filter(Boolean).join(" ");
@@ -408,6 +408,7 @@ interface PromptInputActionProps extends React.ComponentProps<typeof Tooltip> {
   tooltip: React.ReactNode;
   children: React.ReactNode;
   side?: "top" | "bottom" | "left" | "right";
+  className?: string;
 }
 const PromptInputAction: React.FC<PromptInputActionProps> = ({
   tooltip,
@@ -662,10 +663,10 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
             )}
           >
             <DropdownMenu>
-              <DropdownMenuTrigger asChild disabled={isRecording}>
-                <button
-                  className="flex h-8 w-8 text-muted-foreground cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-muted hover:text-foreground"
-                >
+              <DropdownMenuTrigger 
+                disabled={isRecording}
+                className="flex h-8 w-8 text-muted-foreground cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-muted hover:text-foreground border-none bg-transparent"
+              >
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <div className="flex h-full w-full items-center justify-center">
@@ -674,7 +675,6 @@ export const PromptInputBox = React.forwardRef((props: PromptInputBoxProps, ref:
                     </TooltipTrigger>
                     <TooltipContent side="top">Upload file</TooltipContent>
                   </Tooltip>
-                </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" sideOffset={12} className="w-40 rounded-xl">
                 <DropdownMenuItem onClick={() => {

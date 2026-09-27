@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Eye, EyeOff, ChevronLeft } from 'lucide-react';
-import { animateStagger, animateFloat, animatePageEntrance, animateClickPop } from '@/lib/anime';
+import { Eye, EyeOff, ChevronLeft, Bell, X } from 'lucide-react';
+import { animateStagger, animateFloat, animatePageEntrance, animateClickPop, animate } from '@/lib/anime';
 import { router } from '@inertiajs/react';
 import { home } from '@/routes';
 import { OriginButton } from '@/components/ui/origin-button';
@@ -35,7 +35,10 @@ export interface SignInPageProps {
   onGoogleSignIn?: () => void;
   onResetPassword?: () => void;
   onCreateAccount?: () => void;
+  errors?: Partial<Record<string, string>>;
   children?: React.ReactNode;
+  footer?: React.ReactNode;
+  hideBackButton?: boolean;
 }
 
 // --- SUB-COMPONENTS ---
@@ -57,6 +60,61 @@ const TestimonialCard = ({ testimonial, delay }: { testimonial: Testimonial, del
   </div>
 );
 
+export function ErrorToast({ message, onClose }: { message: string, onClose: () => void }) {
+    const toastRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (toastRef.current) {
+            animate(toastRef.current, {
+                translateY: [50, 0],
+                opacity: [0, 1],
+                duration: 600,
+                ease: 'outBack',
+            });
+        }
+    }, []);
+
+    const handleClose = () => {
+        if (toastRef.current) {
+            animate(toastRef.current, {
+                translateY: [0, 50],
+                opacity: [1, 0],
+                duration: 300,
+                ease: 'inQuad',
+                onComplete: onClose,
+            });
+        } else {
+            onClose();
+        }
+    };
+
+    return (
+        <div className="fixed bottom-6 right-6 z-[100]">
+            <div ref={toastRef} className="w-[380px] rounded-3xl bg-card border border-border p-6 text-foreground shadow-2xl relative">
+                <div className="flex items-start gap-4 mb-5">
+                    <div className="flex-1">
+                        <h3 className="text-xl font-bold mb-1.5 text-foreground">Validation Error</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                            {message}
+                        </p>
+                    </div>
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
+                        <Bell className="h-6 w-6 animate-ring-subtle" />
+                    </div>
+                </div>
+
+                <button 
+                    type="button"
+                    onClick={handleClose}
+                    className="w-full rounded-2xl bg-primary py-3.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[0.98] active:scale-95 hover:bg-primary/90 shadow-md"
+                >
+                    Okay, I Understand
+                </button>
+            </div>
+        </div>
+    );
+}
+
 // --- MAIN COMPONENT ---
 
 export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }> = ({
@@ -68,13 +126,25 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
   onGoogleSignIn,
   onResetPassword,
   onCreateAccount,
+  errors = {},
   children,
-  footer
+  footer,
+  hideBackButton = false
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [toastError, setToastError] = useState<string | null>(null);
   const formSectionRef = useRef<HTMLDivElement>(null);
   const heroImageRef = useRef<HTMLDivElement>(null);
   const testimonialContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (errors && Object.keys(errors).length > 0) {
+      const firstError = Object.values(errors)[0];
+      if (firstError) {
+        setToastError(firstError as string);
+      }
+    }
+  }, [errors]);
 
   useEffect(() => {
     // Stagger entrance on form elements
@@ -151,15 +221,17 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
   return (
     <div className="relative h-[100dvh] flex flex-col md:flex-row w-[100dvw] overflow-hidden">
       {/* Back Button */}
-      <div className="absolute left-6 top-6 md:left-10 md:top-10 z-50">
-          <OriginButton 
-              onClick={handleBack} 
-              className="!h-12 !w-12 !rounded-full !px-0 shadow-sm"
-              aria-label="Go back"
-          >
-              <ChevronLeft className="size-5" />
-          </OriginButton>
-      </div>
+      {!hideBackButton && (
+          <div className="absolute left-6 top-6 md:left-10 md:top-10 z-50">
+              <OriginButton 
+                  onClick={handleBack} 
+                  className="!h-12 !w-12 !rounded-full !px-0 shadow-sm"
+                  aria-label="Go back"
+              >
+                  <ChevronLeft className="size-5" />
+              </OriginButton>
+          </div>
+      )}
 
       {/* Left column: sign-in form */}
       <section className="flex-1 flex items-center justify-center p-8 overflow-y-auto">
@@ -171,12 +243,13 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
             {children ? (
                children
             ) : (
-                <form className="space-y-5" onSubmit={onSignIn}>
+                <form className="space-y-5" onSubmit={onSignIn} noValidate>
                   <div className="auth-anime-item">
                     <label className="text-sm font-medium text-muted-foreground">Email Address</label>
                     <GlassInputWrapper>
                       <input name="email" type="email" placeholder="Enter your email address" className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none" />
                     </GlassInputWrapper>
+                    {errors?.email && <p className="text-sm text-red-500 mt-1.5 ml-1">{errors.email}</p>}
                   </div>
 
                   <div className="auth-anime-item">
@@ -189,6 +262,7 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
                         </button>
                       </div>
                     </GlassInputWrapper>
+                    {errors?.password && <p className="text-sm text-red-500 mt-1.5 ml-1">{errors.password}</p>}
                   </div>
 
                   <div className="auth-anime-item flex items-center justify-between text-sm">
@@ -233,8 +307,11 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
           )}
         </section>
       )}
+
+      {toastError && <ErrorToast message={toastError} onClose={() => setToastError(null)} />}
     </div>
   );
 };
+
 
 

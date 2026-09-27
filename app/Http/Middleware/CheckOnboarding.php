@@ -16,8 +16,13 @@ class CheckOnboarding
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->user() && !$request->user()->onboarding_completed) {
-            // Avoid redirect loops and allow viewing the landing page
-            if (!$request->routeIs('onboarding.*') && !$request->routeIs('logout') && !$request->routeIs('home')) {
+            // Avoid redirect loops and allow viewing the landing page, logout, and email verification
+            if (
+                !$request->routeIs('onboarding.*') && 
+                !$request->routeIs('logout') && 
+                !$request->routeIs('home') &&
+                !$request->routeIs('verification.*')
+            ) {
                 return redirect()->route('onboarding.show');
             }
         }

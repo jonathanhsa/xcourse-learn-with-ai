@@ -1,4 +1,4 @@
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import {
     SignInPage,
     GlassInputWrapper,
@@ -14,6 +14,7 @@ type Props = {
 };
 
 export default function Register({ passwordRules }: Props) {
+    const { errors } = usePage().props;
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -54,8 +55,9 @@ export default function Register({ passwordRules }: Props) {
                 description="Join us and start your journey today"
                 heroImageSrc="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
                 footer={footer}
+                errors={errors}
             >
-                <form className="space-y-4" onSubmit={handleRegister}>
+                <form className="space-y-4" onSubmit={handleRegister} noValidate>
                     <div className="auth-anime-item">
                         <label className="text-sm font-medium text-muted-foreground">
                             Email Address
@@ -69,6 +71,9 @@ export default function Register({ passwordRules }: Props) {
                                 className="w-full rounded-2xl bg-transparent p-4 text-sm focus:outline-none"
                             />
                         </GlassInputWrapper>
+                        {errors?.email && (
+                            <p className="mt-1.5 ml-1 text-sm text-red-500">{errors.email}</p>
+                        )}
                     </div>
 
                     <div className="auth-anime-item">
@@ -99,6 +104,9 @@ export default function Register({ passwordRules }: Props) {
                                 </button>
                             </div>
                         </GlassInputWrapper>
+                        {errors?.password && (
+                            <p className="mt-1.5 ml-1 text-sm text-red-500">{errors.password}</p>
+                        )}
                     </div>
 
                     <div className="auth-anime-item">
@@ -135,6 +143,9 @@ export default function Register({ passwordRules }: Props) {
                                 </button>
                             </div>
                         </GlassInputWrapper>
+                        {errors?.password_confirmation && (
+                            <p className="mt-1.5 ml-1 text-sm text-red-500">{errors.password_confirmation}</p>
+                        )}
                     </div>
 
                     <button

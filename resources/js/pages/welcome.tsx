@@ -72,7 +72,13 @@ function Typewriter({ words }: { words: string[] }) {
     return (
         <>
             {words[index].substring(0, subIndex)}
-            <span className={`${blink ? 'opacity-100' : 'opacity-0'} transition-opacity font-sans`}>|</span>
+            <span className={`${blink ? 'opacity-100' : 'opacity-0'} font-sans not-italic inline-block`}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#8B5E3C" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="h-[0.9em] w-auto translate-y-[0.15em] ml-1">
+                    <path d="M 8 4 h 1 a 3 3 0 0 1 3 3 a 3 3 0 0 1 3 -3 h 1" />
+                    <path d="M 12 7 v 10" />
+                    <path d="M 8 20 h 1 a 3 3 0 0 0 3 -3 a 3 3 0 0 0 3 3 h 1" />
+                </svg>
+            </span>
         </>
     );
 }
@@ -610,7 +616,7 @@ export default function Welcome() {
                 {/* Animated Interactive Platform Preview with Floating Cards */}
                 <div
                     ref={previewRef}
-                    className="relative mt-20 flex h-[360px] w-full max-w-5xl items-center justify-center overflow-hidden rounded-[2.5rem] border border-white/60 bg-gradient-to-b from-white/90 to-white/60 p-8 shadow-2xl backdrop-blur-xl md:h-[580px]"
+                    className="relative mt-20 flex h-[360px] w-full max-w-5xl items-center justify-center overflow-hidden rounded-[2.5rem] border border-white/60 bg-gradient-to-b from-white/95 to-white/80 p-8 shadow-2xl md:h-[580px]"
                 >
                     <div className="absolute inset-0 bg-gradient-to-tr from-[#8B5E3C]/5 via-[#5C4033]/5 to-[#A0522D]/5"></div>
 
@@ -618,7 +624,7 @@ export default function Welcome() {
                     <div className="absolute inset-0 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px] opacity-[0.03]"></div>
 
                     {/* Central Mock Platform Workspace */}
-                    <div className="relative z-10 w-full max-w-2xl rounded-2xl border border-border/60 bg-white/90 p-6 shadow-xl backdrop-blur-2xl md:p-8">
+                    <div className="relative z-10 w-full max-w-2xl rounded-2xl border border-border/60 bg-white p-6 shadow-xl md:p-8">
                         <div className="flex items-center justify-between border-b border-border/40 pb-4">
                             <div className="flex items-center gap-2">
                                 <div className="h-3 w-3 rounded-full bg-red-400"></div>
@@ -678,7 +684,7 @@ export default function Welcome() {
                     {/* Floating Element 1 - AI Tutor Dialogue (Anime.js animated) */}
                     <div
                         ref={floatCard1Ref}
-                        className="absolute top-8 left-6 z-20 hidden max-w-xs items-center gap-3 rounded-2xl border border-white/80 bg-white/95 p-3.5 text-left shadow-xl backdrop-blur-xl sm:flex md:left-12"
+                        className="absolute top-8 left-6 z-20 hidden max-w-xs items-center gap-3 rounded-2xl border border-white/80 bg-white p-3.5 text-left shadow-xl sm:flex md:left-12"
                     >
                         <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-[#7A5230] to-[#5C4033] text-white shadow-xs">
                             <Sparkles className="h-4 w-4" />
@@ -696,7 +702,7 @@ export default function Welcome() {
                     {/* Floating Element 2 - Practice Score Card (Anime.js animated) */}
                     <div
                         ref={floatCard2Ref}
-                        className="absolute right-6 bottom-10 z-20 hidden items-center gap-3 rounded-2xl border border-white/80 bg-white/95 p-4 text-left shadow-xl backdrop-blur-xl sm:flex md:right-12"
+                        className="absolute right-6 bottom-10 z-20 hidden items-center gap-3 rounded-2xl border border-white/80 bg-white p-4 text-left shadow-xl sm:flex md:right-12"
                     >
                         <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
                             <CheckCircle2 className="h-5 w-5" />
@@ -719,7 +725,7 @@ export default function Welcome() {
                     {/* Floating Element 3 - Study Streak Badge (Anime.js animated) */}
                     <div
                         ref={floatCard3Ref}
-                        className="absolute top-12 right-10 z-20 hidden items-center gap-2.5 rounded-full border border-white/80 bg-white/95 px-4 py-2 shadow-lg backdrop-blur-xl md:flex"
+                        className="absolute top-12 right-10 z-20 hidden items-center gap-2.5 rounded-full border border-white/80 bg-white px-4 py-2 shadow-lg md:flex"
                     >
                         <TrendingUp className="h-4 w-4 text-orange-500" />
                         <span className="text-xs font-bold text-foreground">
@@ -730,7 +736,7 @@ export default function Welcome() {
 
                 {/* Animated Stats Section (Anime.js Counters) */}
                 <div className="mt-16 grid w-full max-w-4xl grid-cols-1 gap-6 md:grid-cols-3">
-                    <div className="rounded-2xl border border-border/40 bg-white/80 p-6 text-center shadow-xs backdrop-blur-md">
+                    <div className="rounded-2xl border border-border/40 bg-white/90 p-6 text-center shadow-xs">
                         <span
                             ref={stat1Ref}
                             className="font-heading text-4xl font-bold text-foreground"
@@ -741,7 +747,7 @@ export default function Welcome() {
                             Higher Exam Retention
                         </p>
                     </div>
-                    <div className="rounded-2xl border border-border/40 bg-white/80 p-6 text-center shadow-xs backdrop-blur-md">
+                    <div className="rounded-2xl border border-border/40 bg-white/90 p-6 text-center shadow-xs">
                         <span
                             ref={stat2Ref}
                             className="font-heading text-4xl font-bold text-foreground"
@@ -752,7 +758,7 @@ export default function Welcome() {
                             Students Learning Smarter
                         </p>
                     </div>
-                    <div className="rounded-2xl border border-border/40 bg-white/80 p-6 text-center shadow-xs backdrop-blur-md">
+                    <div className="rounded-2xl border border-border/40 bg-white/90 p-6 text-center shadow-xs">
                         <span
                             ref={stat3Ref}
                             className="font-heading text-4xl font-bold text-foreground"

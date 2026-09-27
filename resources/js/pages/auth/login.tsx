@@ -1,4 +1,4 @@
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { SignInPage, Testimonial } from '@/components/ui/sign-in';
 import { store } from '@/routes/login';
 import { register } from '@/routes';
@@ -10,6 +10,8 @@ type Props = {
 };
 
 export default function Login({ status, canResetPassword }: Props) {
+    const { errors } = usePage().props;
+
     const handleSignIn = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -49,6 +51,7 @@ export default function Login({ status, canResetPassword }: Props) {
                     canResetPassword ? handleResetPassword : undefined
                 }
                 onCreateAccount={handleCreateAccount}
+                errors={errors}
             />
 
             {status && (
