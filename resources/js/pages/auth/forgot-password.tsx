@@ -33,7 +33,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
     );
 
     return (
-        <div className="page-transition-enter min-h-screen bg-background text-foreground">
+        <div className="page-transition-enter h-[100dvh] overflow-hidden bg-background text-foreground">
             <Head title="Forgot Account?" />
 
             <SignInPage

@@ -219,7 +219,7 @@ export const SignInPage: React.FC<SignInPageProps & { footer?: React.ReactNode }
   };
 
   return (
-    <div className="relative h-[100dvh] flex flex-col md:flex-row w-[100dvw] overflow-hidden">
+    <div className="relative h-[100dvh] flex flex-col md:flex-row w-full overflow-hidden">
       {/* Back Button */}
       {!hideBackButton && (
           <div className="absolute left-6 top-6 md:left-10 md:top-10 z-50">
