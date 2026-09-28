@@ -373,10 +373,6 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ---
 
 <p align="center">
-  <sub>Built with ❤️ and lots of ☕ by XCourse Team</sub>
-</p>
-
-<p align="center">
   <a href="https://github.com/jonathanhsa/xcourse-learn-with-ai">
     <img src="https://img.shields.io/badge/⭐_Star_this_repo-if_you_found_it_helpful!-yellow?style=for-the-badge" alt="Star" />
   </a>
